@@ -1,6 +1,7 @@
 package EmpiricalTestForRandomNumberGenerators;
 
 import RandomNumberGenerators.UnifRandGenerator;
+import Utils.AverageUtils;
 import Utils.Interval;
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
@@ -43,20 +44,18 @@ public class ChiSquareTest {
 
             f.set(rightBin,curF);
         }
-
+        System.out.println("Average number in bin: " + AverageUtils.avgI(f) + " expected value: " + (double)n/(double) k);
         //4. calculate chiSquared value
         double chiSquared = 0;
-        double nByK = (double) n / (double) k;
         for(int j = 0; j < k; j++) {
-            chiSquared += Math.pow((f.get(j) - nByK),2);
+            chiSquared += Math.pow((f.get(j) - ((double)n/(double) k)),2);
         }
-        chiSquared = nByK * chiSquared;
+        chiSquared = ((double)k/(double) n) * chiSquared;
 
         // 5. reject if chisquared > chisquared_(k-1),(1-alpha)
         // chisquared_(k-1),(1-alpha) is the upper 1 - alpha critical point of the chi-square distribution with k - 1 df
         ChiSquaredDistribution csd = new ChiSquaredDistribution(k - 1);
-        double upperAlphaPercentile = csd.inverseCumulativeProbability(alpha); // gets the upper alpha percentile
-
+        double upperAlphaPercentile = csd.inverseCumulativeProbability(1-alpha); // gets the upper alpha percentile
         boolean reject;
         if(chiSquared > upperAlphaPercentile) {
             reject = true;

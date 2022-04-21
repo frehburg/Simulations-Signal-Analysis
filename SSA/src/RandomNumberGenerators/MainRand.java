@@ -1,16 +1,18 @@
 package RandomNumberGenerators;
 
+import EmpiricalTestForRandomNumberGenerators.ChiSquareTest;
+
 public class MainRand {
     public static void main(String[] args) throws Exception {
-        LCGUnifGenerator lcg = LCGUnifGenerator.PMMLCG_2;
-        RandomVariatesGenerator r = new GeneralRandVariatesGenerator(lcg);
-        int sum = 0;
-        int n = 70091068;
-        for(int i = 0; i < n; i++) {
-            boolean b = r.getBoolean();
-            if(b) sum++;
-        }
-        System.out.println((double)sum/(double)n);
+
+    }
+
+    public static void chiSquareTestTest() {
+        // according to the book page 410
+        UnifRandGenerator r = LCGUnifGenerator.PMMLCG_2;
+        int k = (int) Math.pow(2,12);
+        int n = (int) Math.pow(2,15);
+        ChiSquareTest.chiSquareTest(r, k, n,0.05);
     }
 
     public static void testFibonacci() throws Exception {
