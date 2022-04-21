@@ -15,6 +15,7 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
     private ArrayList<Byte> bits;
     private ArrayList<Double> u;
     private int curI;
+    private int curB;
 
     /**
      * Known to have statistical deficiencies.
@@ -60,7 +61,8 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
     }
 
     private void init() {
-        curI = q - 1;
+        curI = 0;
+        curB = q - 1;
         u = new ArrayList<>();
         bits = new ArrayList<>();
 
@@ -90,28 +92,33 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
      */
     @Override
     public double getRandomNumber() {
-        //0. get the last q bits
-        List<Byte> lastQBitsList = bits.subList((curI - (q - 1)), curI + 1);
-        Byte[] lastQBits = lastQBitsList.toArray(new Byte[0]);
-        //1. generate a new bit
-        byte nextBit = 0;
-        for(int i = 0; i < q; i++) {
-            nextBit += c[i]*lastQBits[i];
-        }
-        nextBit = (byte) (nextBit % 2);
+        //repeat this q times
+        for(int k = 0; k < q; k++) {
+            //0. get the last q bits
+            List<Byte> lastQBitsList = bits.subList((curB - (q - 1)), curB + 1);
+            Byte[] lastQBits = lastQBitsList.toArray(new Byte[0]);
+            //1. generate a new bit
+            byte nextBit = 0;
+            for (int i = 0; i < q; i++) {
+                nextBit += c[i] * lastQBits[i];
+            }
+            nextBit = (byte) (nextBit % 2);
 
-        bits.add(nextBit);
-        curI++;
+            bits.add(nextBit);
+            if(DEBUG)System.out.println("    " + nextBit);
+            curB++;
+        }
         //2. now convert the new last q bits into the new random number
-        lastQBitsList = bits.subList((curI - (q - 1)), curI + 1);
-        lastQBits = lastQBitsList.toArray(new Byte[0]);
+        List<Byte> lastQBitsList = bits.subList((curB - (q - 1)), curB + 1);
+        Byte[] lastQBits = lastQBitsList.toArray(new Byte[0]);
         long w = 0;
         for(int i = 0; i < q; i++) {
             w += lastQBits[i] * Math.pow(2,i);
         }
         double nextU = (double) w / Math.pow(2,q);
         u.add(nextU);
-        if(DEBUG)System.out.println("i: " + curI + " b_i: " + nextBit + " u_i: " + nextU + " W_i: " + w + " 2^q = " + Math.pow(2,q));
+        if(DEBUG)System.out.println("i: " + curI + " u_i: " + nextU + " W_i: " + w + " 2^q = " + Math.pow(2,q));
+        curI++;
         return nextU;
     }
 
@@ -123,12 +130,9 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
      * @return
      */
     public double getRandomNumber(int i) throws Exception {
-        if(i >= q) {
-            i = i - q - 1;
-        }
         if(i > 0) {
             if(i >= curI) {
-                while(curI < i + q) {
+                while(curI <= i) {
                     getRandomNumber();
                 }
             }

@@ -5,10 +5,12 @@ import EmpiricalTestForRandomNumberGenerators.RunsUpTest;
 
 public class MainRand {
     public static void main(String[] args) throws Exception {
-        UnifRandGenerator r = new TauswortheUnifGenerator(13, 2, 4);
-        r.getRandomNumber(10000);
-        System.out.println("--------------");
-        UnifRandGenerator p = new JUnifRandGenerator();//new TauswortheUnifGenerator((long) (Math.pow(2,15) - 1), 7, 14);
+        UnifRandGenerator r = new TauswortheUnifGenerator(2039, 7, 10);
+        r.getRandomNumber(100000);
+    }
+
+    public static void completeTest(UnifRandGenerator p) {
+        p = new JUnifRandGenerator();//new TauswortheUnifGenerator((long) (Math.pow(2,15) - 1), 7, 14);
         //p.getRandomNumber(1000000);
         // runs up test
         int n = (int) Math.pow(2,14);
@@ -16,11 +18,10 @@ public class MainRand {
         if(runsUp) {
             // chi squared test
             int k = (int) Math.pow(2, 12);
-            ChiSquareTest.chiSquareTest(r, k, n, 0.05);
+            ChiSquareTest.chiSquareTest(p, k, n, 0.05);
         } else {
             System.out.println("Since the Chi Squared Uniformity test assumes independence, it does not apply to this sequence.");
         }
-
     }
 
     public static void testRunsUpTest() {
