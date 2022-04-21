@@ -6,9 +6,10 @@ import Utils.Interval;
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
- * Tests random numbers for uniformity
+ * Tests random number generators for uniformity
  */
 public class ChiSquareTest {
     public static boolean chiSquareTest(UnifRandGenerator r, int k, long n, double alpha) {
@@ -24,9 +25,9 @@ public class ChiSquareTest {
             bins.add(new Interval(i*delta,(i+1)*delta,true, false));
         }
         //3. sort the random numbers into the bins
-        ArrayList<Integer> f = new ArrayList<>(); // let f_j be the number of the Ui’s that are in the jth subinterval
+        Integer[] f = new Integer[k]; // let f_j be the number of the Ui’s that are in the jth subinterval
         for(int i = 0; i < k; i++) {
-            f.add(0);
+            f[i] = 0;
         }
         //sort all random numbers into the right bins
         for(double randomNumber : u) {
@@ -39,16 +40,13 @@ public class ChiSquareTest {
                 }
             }
             //increment
-            int curF = f.get(rightBin);
-            curF++;
-
-            f.set(rightBin,curF);
+            f[rightBin]++;
         }
-        System.out.println("Average number in bin: " + AverageUtils.avgI(f) + " expected value: " + (double)n/(double) k);
+        System.out.println("Average number in bin: " + AverageUtils.avgI(Arrays.asList(f)) + " expected value: " + (double)n/(double) k);
         //4. calculate chiSquared value
         double chiSquared = 0;
         for(int j = 0; j < k; j++) {
-            chiSquared += Math.pow((f.get(j) - ((double)n/(double) k)),2);
+            chiSquared += Math.pow((f[j] - ((double)n/(double) k)),2);
         }
         chiSquared = ((double)k/(double) n) * chiSquared;
 
@@ -62,13 +60,13 @@ public class ChiSquareTest {
             System.out.println(
             "The test came to a chi squared value of: " + chiSquared + ", which is bigger than the upper alpha " +
             "\npercentile: " + upperAlphaPercentile + ", therefore we reject the null hypothesis, that the U_i " +
-                    "\nare IID U(0,1) random variables at the level of alpha "+ alpha +".");
+                    "\nare IID uniformly distributed U(0,1) random variables at the level of alpha "+ alpha +".");
         } else {
             reject = false;
             System.out.println(
                     "The test came to a chi squared value of: " + chiSquared + ", which is smaller than the upper alpha " +
                             "\npercentile: " + upperAlphaPercentile + ", therefore we accept the null hypothesis, that the U_i " +
-                            "\nare IID U(0,1) random variables at the level of alpha "+ alpha +".");
+                            "\nare IID uniformly distributed U(0,1) random variables at the level of alpha "+ alpha +".");
         }
 
         return reject;

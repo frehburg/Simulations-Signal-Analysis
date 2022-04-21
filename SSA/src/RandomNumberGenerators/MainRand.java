@@ -4,7 +4,7 @@ import EmpiricalTestForRandomNumberGenerators.ChiSquareTest;
 
 public class MainRand {
     public static void main(String[] args) throws Exception {
-
+        chiSquareTestTest();
     }
 
     public static void chiSquareTestTest() {

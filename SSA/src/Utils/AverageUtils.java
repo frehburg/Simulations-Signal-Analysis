@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AverageUtils {
-    public static double avgI(ArrayList<Integer> al) {
+    public static double avgI(List<Integer> al) {
         int sum = 0;
         for(int i : al) {
             sum += i;
