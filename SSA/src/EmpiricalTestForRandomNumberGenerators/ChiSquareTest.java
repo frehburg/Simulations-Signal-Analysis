@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 /**
  * Tests random number generators for uniformity
+ * returns whether the random nubers are uniformly distributed
+ * Assumes independence in the u
  */
 public class ChiSquareTest {
     public static boolean chiSquareTest(UnifRandGenerator r, int k, long n, double alpha) {
@@ -69,6 +71,7 @@ public class ChiSquareTest {
                             "\nare IID uniformly distributed U(0,1) random variables at the level of alpha "+ alpha +".");
         }
 
-        return reject;
+
+        return !reject;
     }
 }

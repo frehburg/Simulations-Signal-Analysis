@@ -1,10 +1,13 @@
 package RandomNumberGenerators;
 
 import EmpiricalTestForRandomNumberGenerators.ChiSquareTest;
+import EmpiricalTestForRandomNumberGenerators.RunsUpTest;
 
 public class MainRand {
     public static void main(String[] args) throws Exception {
-        chiSquareTestTest();
+        UnifRandGenerator r = LCGUnifGenerator.PMMLCG_2;
+        int n = 5000;
+        RunsUpTest.runsUpTest(r,n, 0.05);
     }
 
     public static void chiSquareTestTest() {
