@@ -65,7 +65,7 @@ public class LCGUnifGenerator implements UnifRandGenerator{
         try {
             RANDU = new LCGUnifGenerator((long) Math.pow(2,31), (long) (Math.pow(2,16)+3),0,1);
             PMMLCG_1 = new LCGUnifGenerator((long) Math.pow(2,31) - 1, (long) Math.pow(7,5),0,1);
-            PMMLCG_2 = new LCGUnifGenerator((long) Math.pow(2,31) - 1, 630360016,0,1);
+            PMMLCG_2 = new LCGUnifGenerator((long) Math.pow(2,31) - 1, 630360016,0,237);
         } catch (Exception e) {
             e.printStackTrace();
         }
