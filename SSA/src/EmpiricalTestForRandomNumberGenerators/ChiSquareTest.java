@@ -3,6 +3,7 @@ package EmpiricalTestForRandomNumberGenerators;
 import RandomNumberGenerators.UnifRandGenerator;
 import Utils.AverageUtils;
 import Utils.Interval;
+import Utils.RoundUtils;
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.Arrays;
  * Assumes independence in the u
  */
 public class ChiSquareTest {
+    private static final boolean DEBUG = false;
+
     public static boolean chiSquareTest(UnifRandGenerator r, int k, long n, double alpha) {
         //1. generate n random numbers from r
         ArrayList<Double> u = new ArrayList<>();
@@ -44,7 +47,7 @@ public class ChiSquareTest {
             //increment
             f[rightBin]++;
         }
-        System.out.println("Average number in bin: " + AverageUtils.avgI(Arrays.asList(f)) + " expected value: " + (double)n/(double) k);
+        if(DEBUG)System.out.println("Average number in bin: " + AverageUtils.avgI(Arrays.asList(f)) + " expected value: " + (double)n/(double) k);
         //4. calculate chiSquared value
         double chiSquared = 0;
         for(int j = 0; j < k; j++) {
@@ -60,15 +63,15 @@ public class ChiSquareTest {
         if(chiSquared > upperAlphaPercentile) {
             reject = true;
             System.out.println(
-            "The test came to a chi squared value of: " + chiSquared + ", which is bigger than the upper alpha " +
-            "\npercentile: " + upperAlphaPercentile + ", therefore we reject the null hypothesis, that the U_i " +
-                    "\nare IID uniformly distributed U(0,1) random variables at the level of alpha "+ alpha +".");
+            "The Chi Squared Uniformity test came to a chi squared value of: " + RoundUtils.round(chiSquared,2) + "(2dp), which is bigger than \nthe upper alpha " +
+            "percentile: " + RoundUtils.round(upperAlphaPercentile,2) + "(2dp), therefore we reject the null hypothesis, that the U_i " +
+                    "are \nIID uniformly distributed U(0,1) random variables at the level of alpha "+ alpha +".");
         } else {
             reject = false;
             System.out.println(
-                    "The test came to a chi squared value of: " + chiSquared + ", which is smaller than the upper alpha " +
-                            "\npercentile: " + upperAlphaPercentile + ", therefore we accept the null hypothesis, that the U_i " +
-                            "\nare IID uniformly distributed U(0,1) random variables at the level of alpha "+ alpha +".");
+                    "The Chi Squared Uniformity test came to a chi squared value of: " + RoundUtils.round(chiSquared,2) + "(2dp), which is smaller than \nthe upper alpha " +
+                            "percentile: " + RoundUtils.round(upperAlphaPercentile,2) + "(2dp), therefore we accept the null hypothesis, that the U_i " +
+                            "are \nIID uniformly distributed U(0,1) random variables at the level of alpha "+ alpha +".");
         }
 
 

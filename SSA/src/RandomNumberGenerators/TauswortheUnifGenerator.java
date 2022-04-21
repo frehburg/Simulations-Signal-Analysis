@@ -1,19 +1,28 @@
 package RandomNumberGenerators;
 
+import Utils.AverageUtils;
+import Utils.StringUtils;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class TauswortheUnifGenerator implements UnifRandGenerator{
 
+    private static final boolean DEBUG = false;
     private final long seed;
     private final int q;
-    private boolean[] c;
+    private byte[] c;
     private ArrayList<Byte> bits;
+    private ArrayList<Double> u;
+    private int curI;
 
     /**
+     * Known to have statistical deficiencies.
      * This is the general constructor of the Tausworthe Generator.
      * The activeBits array must be of length exactly q, where c[q-1] must be true.
      * In the formula b_i = (c_1*b_(i_1) + c_2*b_(i-2) + ... + c_q*b_(i-q))%2 the c[] represents the c vector
      * Therefore if c[i-1] = true then c_i = 1 and vice versa.
+     *
      *
      * It is to be noted, that the seed should be a number filling up q bits, but it does not need to
      * @param seed
@@ -23,7 +32,10 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
     public TauswortheUnifGenerator(long seed, int q, boolean[] c) {
         this.seed = seed;
         this.q = q;
-        this.c = c;
+        this.c = new byte[q];
+        for(int i = 0; i < q; i++) {
+            this.c[i] = (byte) (c[i] ? 1 : 0);
+        }
         init();
     }
 
@@ -38,16 +50,18 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
     public TauswortheUnifGenerator(long seed, int r, int q) {
         this.seed = seed;
         this.q = q;
-        this.c = new boolean[q];
+        this.c = new byte[q];
         for(int i = 0; i < q; i++) {
-            c[i] = false;
+            c[i] = 0;
         }
-        c[r-1] = true;
-        c[q-1] = true;
+        c[r-1] = 1;
+        c[q-1] = 1;
         init();
     }
 
     private void init() {
+        curI = q - 1;
+        u = new ArrayList<>();
         bits = new ArrayList<>();
 
         //convert seed into bits and then put them in as the first q bits
@@ -56,8 +70,12 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
             seedBits = "0"+seedBits;
         }
         System.out.println("Seed: " + seed + ", as bits: " + seedBits);
-
-
+        char[] seedBitsArr = seedBits.toCharArray();
+        for(char c : seedBitsArr) {
+            byte cur = Byte.parseByte(c+"");
+            bits.add(cur);
+        }
+        System.out.println("First q bits: " + bits);
     }
 
     @Override
@@ -72,7 +90,29 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
      */
     @Override
     public double getRandomNumber() {
-        return 0;
+        //0. get the last q bits
+        List<Byte> lastQBitsList = bits.subList((curI - (q - 1)), curI + 1);
+        Byte[] lastQBits = lastQBitsList.toArray(new Byte[0]);
+        //1. generate a new bit
+        byte nextBit = 0;
+        for(int i = 0; i < q; i++) {
+            nextBit += c[i]*lastQBits[i];
+        }
+        nextBit = (byte) (nextBit % 2);
+
+        bits.add(nextBit);
+        curI++;
+        //2. now convert the new last q bits into the new random number
+        lastQBitsList = bits.subList((curI - (q - 1)), curI + 1);
+        lastQBits = lastQBitsList.toArray(new Byte[0]);
+        long w = 0;
+        for(int i = 0; i < q; i++) {
+            w += lastQBits[i] * Math.pow(2,i);
+        }
+        double nextU = (double) w / Math.pow(2,q);
+        u.add(nextU);
+        if(DEBUG)System.out.println("i: " + curI + " b_i: " + nextBit + " u_i: " + nextU + " W_i: " + w + " 2^q = " + Math.pow(2,q));
+        return nextU;
     }
 
     /**
@@ -82,8 +122,20 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
      * @param i
      * @return
      */
-    @Override
     public double getRandomNumber(int i) throws Exception {
-        return 0;
+        if(i >= q) {
+            i = i - q - 1;
+        }
+        if(i > 0) {
+            if(i >= curI) {
+                while(curI < i + q) {
+                    getRandomNumber();
+                }
+            }
+            System.out.println("Average value of the random numbers: "+ AverageUtils.avgD(u));
+            return u.get(i);
+        }
+        throw new Exception("i is out of the range of generated random numbers");
     }
+
 }
