@@ -1,5 +1,7 @@
 package RandomNumberGenerators;
 
+import Utils.AverageUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,8 @@ public class MRGUnifGenerator implements UnifRandGenerator{
      * for each a_i < m
      * c < m
      * Z_0 < m
+     *
+     * The formula is
      *
      * @param m
      * @param a
@@ -86,16 +90,30 @@ public class MRGUnifGenerator implements UnifRandGenerator{
     /**
      * This method generates a random number from the U(0,1) distribution ( [0,1) interval)
      *
-     * The formula is Z_i = a_1*Z_(i-1) +
+     * The formula is Z_i = (a_1*Z_(i-1) + a_2*Z_(i-2)+ ... + a_q*Z_(i-q) + c) % m
+     *
+     * U_i = Z_i / m
      *
      * @return
      */
     @Override
     public double getRandomNumber() {
         //1. get last q Z_i
-        long[] lastZ = new long[q];
-        List<Byte> lastQBitsList = bits.subList((curB - (q - 1)), curB + 1);
-        return 0;
+        List<Long> lastZList = z.subList((int)(curI - (q - 1)), (int)curI + 1);
+        Long[] lastZ = lastZList.toArray(new Long[0]);
+        long nextZ = 0;
+        for(int i = 0; i < q; i++) {
+            nextZ += a[i]*lastZ[i];
+        }
+        nextZ += c;
+        nextZ = nextZ % m;
+        z.add(nextZ);
+
+        double nextU = (double) nextZ / (double) m;
+        u.add(nextU);
+        curI++;
+        if(DEBUG)System.out.println("i: " + curI + " u_i: " + nextU);
+        return nextU;
     }
 
     /**
@@ -107,6 +125,15 @@ public class MRGUnifGenerator implements UnifRandGenerator{
      */
     @Override
     public double getRandomNumber(int i) throws Exception {
-        return 0;
+        if(i > 0) {
+            if(i >= curI) {
+                while(curI <= i) {
+                    getRandomNumber();
+                }
+            }
+            System.out.println("Average value of the random numbers: "+ AverageUtils.avgD(u));
+            return u.get(i);
+        }
+        throw new Exception("i is out of the range of generated random numbers");
     }
 }

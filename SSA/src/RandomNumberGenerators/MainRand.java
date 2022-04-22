@@ -5,7 +5,8 @@ import EmpiricalTestForRandomNumberGenerators.RunsUpTest;
 
 public class MainRand {
     public static void main(String[] args) throws Exception {
-
+        UnifRandGenerator r = new MRGUnifGenerator((long) Math.pow(2,31),new long[]{123,345,543,243},0,new long[]{1,1,1,1});
+        completeTest(r);
     }
 
     public static void completeTest(UnifRandGenerator p) {
