@@ -46,6 +46,14 @@ public class JUnifRandGenerator implements UnifRandGenerator{
         return nextU;
     }
 
+    @Override
+    /**
+     * This RNG does not work with integers
+     */
+    public long getLastZ() {
+        return -1;
+    }
+
     /**
      * Returns the ith random number
      * @param i

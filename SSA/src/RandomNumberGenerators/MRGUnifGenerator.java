@@ -126,6 +126,11 @@ public class MRGUnifGenerator implements UnifRandGenerator{
         return nextU;
     }
 
+    @Override
+    public long getLastZ() {
+        return z.get((int) curI);
+    }
+
     /**
      * Returns the ith random number. If it hasn't been generated before, then it generates all of the missing random
      * numbers.

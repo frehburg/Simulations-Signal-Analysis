@@ -60,6 +60,11 @@ public class FibonacciUnifGenerator implements UnifRandGenerator{
         return nextU;
     }
 
+    @Override
+    public long getLastZ() {
+        return z.get(curI);
+    }
+
     /**
      * Returns the ith random number
      * @param i

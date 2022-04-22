@@ -14,6 +14,7 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
     private byte[] c;
     private ArrayList<Byte> bits;
     private ArrayList<Double> u;
+    private ArrayList<Long> w;
     private int curI;
     private int curB;
 
@@ -66,6 +67,7 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
         curI = 0;
         curB = q - 1;
         u = new ArrayList<>();
+        w = new ArrayList<>();
         bits = new ArrayList<>();
 
         //convert seed into bits and then put them in as the first q bits
@@ -113,15 +115,21 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
         //2. now convert the new last q bits into the new random number
         List<Byte> lastQBitsList = bits.subList((curB - (q - 1)), curB + 1);
         Byte[] lastQBits = lastQBitsList.toArray(new Byte[0]);
-        long w = 0;
+        long nextW = 0;
         for(int i = 0; i < q; i++) {
-            w += lastQBits[i] * Math.pow(2,i);
+            nextW += lastQBits[i] * Math.pow(2,i);
         }
-        double nextU = (double) w / Math.pow(2,q);
+        w.add(nextW);
+        double nextU = (double) nextW / Math.pow(2,q);
         u.add(nextU);
         if(DEBUG)System.out.println("i: " + curI + " u_i: " + nextU + " W_i: " + w + " 2^q = " + Math.pow(2,q));
         curI++;
         return nextU;
+    }
+
+    @Override
+    public long getLastZ() {
+        return w.get(curI);
     }
 
     /**

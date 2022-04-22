@@ -5,6 +5,14 @@ import Utils.AverageUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class implements polynomial congruential generators
+ *
+ * The formula is Z_i = (a_1*Z_(i-1)^(q-1) + a_2*Z_(i-2)^(q-2)+ ... + a_q*Z_(i-q) + c) % m
+ *
+ * Seems to be very weak, especially for higher degree polynomials. In the quadratic case,
+ * no big improvements can be found after m = 2^9
+ */
 public class PCGUnifGenerator implements UnifRandGenerator{
 
     private boolean DEBUG = false;
@@ -18,6 +26,16 @@ public class PCGUnifGenerator implements UnifRandGenerator{
     private boolean hasFullPeriod;
     private long periodLength;
     private int q;
+
+    public static PCGUnifGenerator QUADRATIC;
+
+    static {
+        try {
+            QUADRATIC = new PCGUnifGenerator((long) (Math.pow(2,9)),123,456,0,1,1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     /**
@@ -178,6 +196,11 @@ public class PCGUnifGenerator implements UnifRandGenerator{
         curI++;
         if(DEBUG)System.out.println("i: " + curI + " u_i: " + nextU);
         return nextU;
+    }
+
+    @Override
+    public long getLastZ() {
+        return z.get((int) curI);
     }
 
     /**

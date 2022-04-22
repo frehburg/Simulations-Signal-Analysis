@@ -12,6 +12,8 @@ public interface UnifRandGenerator {
      */
     double getRandomNumber();
 
+    long getLastZ();
+
     /**
      * Returns the ith random number. If it hasn't been generated before, then it generates all of the missing random
      * numbers.
