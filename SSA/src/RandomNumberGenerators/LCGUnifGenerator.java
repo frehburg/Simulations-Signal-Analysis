@@ -32,6 +32,7 @@ import java.util.ArrayList;
  */
 public class LCGUnifGenerator implements UnifRandGenerator{
 
+    private boolean DEBUG = false;
     private final long m;
     private final long a;
     private final long c;
@@ -70,6 +71,7 @@ public class LCGUnifGenerator implements UnifRandGenerator{
             e.printStackTrace();
         }
     }
+
 
     /**
      * m: the modulus
@@ -144,7 +146,7 @@ public class LCGUnifGenerator implements UnifRandGenerator{
         double nextU = (double) nextZ / (double) m;
         u.add(nextU);
         curI++;
-        System.out.println("i: " + curI + " Z_i: " + nextZ + " U_i: " + nextU);
+        if(DEBUG)System.out.println("i: " + curI + " Z_i: " + nextZ + " U_i: " + nextU);
         if(periodLength == -1 && z.get((int) curI) == seed) { // then we have completed a full period
             periodLength = curI;
             System.out.println("This LCG has a period of length " + periodLength + ".");
