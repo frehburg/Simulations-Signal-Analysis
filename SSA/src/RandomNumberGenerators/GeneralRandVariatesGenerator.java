@@ -26,7 +26,7 @@ public class GeneralRandVariatesGenerator implements RandomVariatesGenerator{
      * Min incluse, max exclusive
      */
     public double getDouble(double min, double max) {
-        return (unif.getRandomNumber() * (max - min)) + min;
+        return (max-min)*unif.getRandomNumber() + min;
     }
 
     @Override

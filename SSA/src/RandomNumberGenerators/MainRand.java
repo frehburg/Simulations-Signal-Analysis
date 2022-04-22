@@ -5,13 +5,11 @@ import EmpiricalTestForRandomNumberGenerators.RunsUpTest;
 
 public class MainRand {
     public static void main(String[] args) throws Exception {
-        UnifRandGenerator r = new TauswortheUnifGenerator(2039, 7, 10);
-        r.getRandomNumber(100000);
+        UnifRandGenerator r = new TauswortheUnifGenerator((long) (Math.pow(2,31)-1), 16, 29);
+        completeTest(r);
     }
 
     public static void completeTest(UnifRandGenerator p) {
-        p = new JUnifRandGenerator();//new TauswortheUnifGenerator((long) (Math.pow(2,15) - 1), 7, 14);
-        //p.getRandomNumber(1000000);
         // runs up test
         int n = (int) Math.pow(2,14);
         boolean runsUp = RunsUpTest.runsUpTest(p,n, 0.05);

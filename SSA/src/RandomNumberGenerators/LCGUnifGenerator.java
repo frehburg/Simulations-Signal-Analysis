@@ -28,7 +28,7 @@ import java.util.ArrayList;
  *
  * This can generate Z_i in the interval [0, (m-1)]; 0 <= Z_i <= m-1
  *
- * To get numbers from U(0,1), simply do U_i = Z_i/(m-1)
+ * To get numbers from U(0,1), simply do U_i = Z_i/m
  */
 public class LCGUnifGenerator implements UnifRandGenerator{
 
@@ -177,7 +177,7 @@ public class LCGUnifGenerator implements UnifRandGenerator{
      * THEOREM 7.1. The LCG defined in Eq. (7.1) has full period if and only if the following three conditions hold:
      * (a) The only positive integer that (exactly) divides both m and c is 1.
      * (b) If q is a prime number (divisible by only itself and 1) that divides m, then q divides a - 1.
-     * (c) If 4 divides m, then 4 divides a 2 1.
+     * (c) If 4 divides m, then 4 divides a - 1.
      * @return
      */
     public boolean hasFullPeriod() {

@@ -17,6 +17,8 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
     private int curI;
     private int curB;
 
+    public static TauswortheUnifGenerator IID_TAUSWORTHE = new TauswortheUnifGenerator((long) (Math.pow(2,31)-1), 16, 29);
+
     /**
      * Known to have statistical deficiencies.
      * This is the general constructor of the Tausworthe Generator.
@@ -71,13 +73,13 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
         while(seedBits.length() < q) {
             seedBits = "0"+seedBits;
         }
-        System.out.println("Seed: " + seed + ", as bits: " + seedBits);
+        if(DEBUG)System.out.println("Seed: " + seed + ", as bits: " + seedBits);
         char[] seedBitsArr = seedBits.toCharArray();
         for(char c : seedBitsArr) {
             byte cur = Byte.parseByte(c+"");
             bits.add(cur);
         }
-        System.out.println("First q bits: " + bits);
+        if(DEBUG)System.out.println("First q bits: " + bits);
     }
 
     @Override
@@ -105,7 +107,7 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
             nextBit = (byte) (nextBit % 2);
 
             bits.add(nextBit);
-            if(DEBUG)System.out.println("    " + nextBit);
+            //if(DEBUG)System.out.println("    " + nextBit);
             curB++;
         }
         //2. now convert the new last q bits into the new random number
