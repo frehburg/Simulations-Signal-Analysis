@@ -19,6 +19,16 @@ public class MRGUnifGenerator implements UnifRandGenerator{
     private long periodLength;
     private int q;
 
+    private static MRGUnifGenerator IID;
+
+    static {
+        try {
+            IID = new MRGUnifGenerator((long) (1.51*Math.pow(2,29)),new long[]{123,345,543,243},0,new long[]{1,1,1,1});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * m: the modulus
      * a: a vector of multipliers
