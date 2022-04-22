@@ -5,16 +5,7 @@ import EmpiricalTestForRandomNumberGenerators.RunsUpTest;
 
 public class MainRand {
     public static void main(String[] args) throws Exception {
-        UnifRandGenerator r = new LEcuyerUnifGeneratorLCGS(
-                (long) (Math.pow(2,31) - 1), //M
-                new long[]{(long) Math.pow(2,32), (long) Math.pow(2,16), (long) Math.pow(2,8)},//m
-                new long[]{15673, 2135, 123}, //a
-                new long[]{1,1,1}, //delta
-                0, //c
-                new long[] {11,22,33} //seed
-        ) ;
 
-        completeTest(r);
     }
 
     public static void completeTest(UnifRandGenerator p) {

@@ -10,6 +10,8 @@ import java.util.ArrayList;
  * Then each of the 1<=k<=q lcgs generates a sequence of integers {Z_k,i} which will be used in
  * The formula is Y_i = (delta_1*Z_1,i + delta_2*Z_2,i + ... + delta_q*Z_q,i + c) mod M
  * U_i = Y_i/M
+ *
+ * In short experiments only found that it works well with at least one good lcg
  */
 public class LEcuyerUnifGeneratorLCGS implements UnifRandGenerator{
     private static final boolean DEBUG = false;
@@ -24,15 +26,6 @@ public class LEcuyerUnifGeneratorLCGS implements UnifRandGenerator{
     private int curI;
     private long M;
     private int q;
-
-    private LEcuyerUnifGeneratorLCGS IDD = new LEcuyerUnifGeneratorLCGS(
-            (long) (Math.pow(2,31) - 1), //M
-            new long[]{(long) Math.pow(2,32), (long) Math.pow(2,16), (long) Math.pow(2,8)},//m
-            new long[]{15673, 2135, 123}, //a
-            new long[]{1,1,1}, //delta
-            0, //c
-            new long[] {11,22,33} //seed
-    ) ;
 
     /**
      * This
