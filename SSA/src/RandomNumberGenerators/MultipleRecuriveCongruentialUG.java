@@ -5,7 +5,7 @@ import Utils.AverageUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MRGUnifGenerator implements UnifRandGenerator{
+public class MultipleRecuriveCongruentialUG implements UnifRandGenerator{
 
     private boolean DEBUG = false;
     private final long m;
@@ -19,11 +19,11 @@ public class MRGUnifGenerator implements UnifRandGenerator{
     private long periodLength;
     private int q;
 
-    private static MRGUnifGenerator IID;
+    private static MultipleRecuriveCongruentialUG IID;
 
     static {
         try {
-            IID = new MRGUnifGenerator((long) (1.51*Math.pow(2,29)),new long[]{123,345,543,243},0,new long[]{1,1,1,1});
+            IID = new MultipleRecuriveCongruentialUG((long) (1.51*Math.pow(2,29)),new long[]{123,345,543,243},0,new long[]{1,1,1,1});
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,7 +49,7 @@ public class MRGUnifGenerator implements UnifRandGenerator{
      * @param seed
      * @throws Exception
      */
-    public MRGUnifGenerator(long m, long[] a, long c, long seed[]) throws Exception {
+    public MultipleRecuriveCongruentialUG(long m, long[] a, long c, long seed[]) throws Exception {
         if(!(m > 0)) {
             throw new Exception("m must be larger than 0.");
         }

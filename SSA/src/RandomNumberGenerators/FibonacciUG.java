@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * This generator tends to have a period in excess of m but is completely unacceptable
  * from a statistical standpoint
  */
-public class FibonacciUnifGenerator implements UnifRandGenerator{
+public class FibonacciUG implements UnifRandGenerator{
 
     private final long seed;
     private final long m;
@@ -16,7 +16,7 @@ public class FibonacciUnifGenerator implements UnifRandGenerator{
     private ArrayList<Long> z;
     private ArrayList<Double> u;
 
-    public FibonacciUnifGenerator(long m, long seed) throws Exception {
+    public FibonacciUG(long m, long seed) throws Exception {
         if(m <= 0 || seed < 0) {
             throw new Exception("Invalid parameters: M must be at least 1 and the seed must be at least 0");
         }

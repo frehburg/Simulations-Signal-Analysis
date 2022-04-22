@@ -4,7 +4,7 @@ import Utils.AverageUtils;
 
 import java.util.ArrayList;
 
-public class LEcuyerUnifGeneratorMRGS implements UnifRandGenerator{
+public class LEcuyerUnifMRG implements UnifRandGenerator{
     private static final boolean DEBUG = false;
     private final UnifRandGenerator[] mrgs;
     private final long[] m;
@@ -18,11 +18,11 @@ public class LEcuyerUnifGeneratorMRGS implements UnifRandGenerator{
     private long M;
     private int q;
 
-    public static LEcuyerUnifGeneratorMRGS PRETTY_GOOD;
+    public static LEcuyerUnifMRG PRETTY_GOOD;
 
     static {
         try {
-            PRETTY_GOOD = new LEcuyerUnifGeneratorMRGS((long) Math.pow(2,19),new long[]{(long) Math.pow(2,16), (long) Math.pow(2,19)}, new long[][]{{1,3},{69,420}},new long[]{1,1},0,new long[][]{{1, 123},{187,9}});
+            PRETTY_GOOD = new LEcuyerUnifMRG((long) Math.pow(2,19),new long[]{(long) Math.pow(2,16), (long) Math.pow(2,19)}, new long[][]{{1,3},{69,420}},new long[]{1,1},0,new long[][]{{1, 123},{187,9}});
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -37,7 +37,7 @@ public class LEcuyerUnifGeneratorMRGS implements UnifRandGenerator{
      * @param seed
      * @throws Exception
      */
-    public LEcuyerUnifGeneratorMRGS(long M, long[] m, long[][] a, long[] delta, long c, long[][] seed) throws Exception {
+    public LEcuyerUnifMRG(long M, long[] m, long[][] a, long[] delta, long c, long[][] seed) throws Exception {
         if(!(M > 0)) {
             throw new Exception("m must be larger than 0.");
         }
@@ -52,9 +52,9 @@ public class LEcuyerUnifGeneratorMRGS implements UnifRandGenerator{
         this.q = m.length;
         this.seed = seed;
         //initialize the MRGs
-        mrgs = new MRGUnifGenerator[q];
+        mrgs = new MultipleRecuriveCongruentialUG[q];
         for(int i = 0; i < q; i++) {
-            mrgs[i] = new MRGUnifGenerator(m[i],a[i],0,seed[i]);
+            mrgs[i] = new MultipleRecuriveCongruentialUG(m[i],a[i],0,seed[i]);
         }
         y = new ArrayList<>();
         u = new ArrayList<>();

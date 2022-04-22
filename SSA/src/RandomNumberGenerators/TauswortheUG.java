@@ -1,12 +1,11 @@
 package RandomNumberGenerators;
 
 import Utils.AverageUtils;
-import Utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TauswortheUnifGenerator implements UnifRandGenerator{
+public class TauswortheUG implements UnifRandGenerator{
 
     private static final boolean DEBUG = false;
     private final long seed;
@@ -18,7 +17,7 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
     private int curI;
     private int curB;
 
-    public static TauswortheUnifGenerator IID_TAUSWORTHE = new TauswortheUnifGenerator((long) (Math.pow(2,31)-1), 16, 29);
+    public static TauswortheUG IID_TAUSWORTHE = new TauswortheUG((long) (Math.pow(2,31)-1), 16, 29);
 
     /**
      * Known to have statistical deficiencies.
@@ -33,7 +32,7 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
      * @param q
      * @param c
      */
-    public TauswortheUnifGenerator(long seed, int q, boolean[] c) {
+    public TauswortheUG(long seed, int q, boolean[] c) {
         this.seed = seed;
         this.q = q;
         this.c = new byte[q];
@@ -51,7 +50,7 @@ public class TauswortheUnifGenerator implements UnifRandGenerator{
      * @param r
      * @param q
      */
-    public TauswortheUnifGenerator(long seed, int r, int q) {
+    public TauswortheUG(long seed, int r, int q) {
         this.seed = seed;
         this.q = q;
         this.c = new byte[q];

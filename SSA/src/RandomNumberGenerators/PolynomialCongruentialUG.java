@@ -13,7 +13,7 @@ import java.util.List;
  * Seems to be very weak, especially for higher degree polynomials. In the quadratic case,
  * no big improvements can be found after m = 2^9
  */
-public class PCGUnifGenerator implements UnifRandGenerator{
+public class PolynomialCongruentialUG implements UnifRandGenerator{
 
     private boolean DEBUG = false;
     private final long m;
@@ -27,11 +27,11 @@ public class PCGUnifGenerator implements UnifRandGenerator{
     private long periodLength;
     private int q;
 
-    public static PCGUnifGenerator QUADRATIC;
+    public static PolynomialCongruentialUG QUADRATIC;
 
     static {
         try {
-            QUADRATIC = new PCGUnifGenerator((long) (Math.pow(2,9)),123,456,0,1,1);
+            QUADRATIC = new PolynomialCongruentialUG((long) (Math.pow(2,9)),123,456,0,1,1);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,7 +58,7 @@ public class PCGUnifGenerator implements UnifRandGenerator{
      * @param seed
      * @throws Exception
      */
-    public PCGUnifGenerator(long m, long[] a, long c, long seed[]) throws Exception {
+    public PolynomialCongruentialUG(long m, long[] a, long c, long seed[]) throws Exception {
         if(!(m > 0)) {
             throw new Exception("m must be larger than 0.");
         }
@@ -121,7 +121,7 @@ public class PCGUnifGenerator implements UnifRandGenerator{
      * @param seed2
      * @throws Exception
      */
-    public PCGUnifGenerator(long m, long a1, long a2, long c, long seed1, long seed2) throws Exception {
+    public PolynomialCongruentialUG(long m, long a1, long a2, long c, long seed1, long seed2) throws Exception {
         a = new long[]{a1, a2};
         seed = new long[]{seed1, seed2};
         if(!(m > 0)) {

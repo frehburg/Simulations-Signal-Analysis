@@ -30,7 +30,7 @@ import java.util.ArrayList;
  *
  * To get numbers from U(0,1), simply do U_i = Z_i/m
  */
-public class LCGUnifGenerator implements UnifRandGenerator{
+public class LinearCongruentialUG implements UnifRandGenerator{
 
     private boolean DEBUG = false;
     private final long m;
@@ -47,12 +47,12 @@ public class LCGUnifGenerator implements UnifRandGenerator{
      * Prime modulus multiplicative (c = 0) LCG
      * shown to have very undesirable statistical properties
      */
-    public static LCGUnifGenerator RANDU;
+    public static LinearCongruentialUG RANDU;
     /**
      * Prime modulus multiplicative (c = 0) LCG with optimal m = 2^31 - 1
      * with a_1 = 7^5 found by Lewis, Goodman, and Miller, but not very optimal
      */
-    public static LCGUnifGenerator PMMLCG_1;
+    public static LinearCongruentialUG PMMLCG_1;
     /**
      * Prime modulus multiplicative (c = 0) LCG with optimal m = 2^31 - 1
      * a_2 = 630,360,016 suggested by Payne, Rabung, and Bogyo
@@ -60,13 +60,13 @@ public class LCGUnifGenerator implements UnifRandGenerator{
      * "may provide acceptable results for some applications, particularly if the required number
      * of random numbers is not too large"
      */
-    public static LCGUnifGenerator PMMLCG_2;
+    public static LinearCongruentialUG PMMLCG_2;
 
     static {
         try {
-            RANDU = new LCGUnifGenerator((long) Math.pow(2,31), (long) (Math.pow(2,16)+3),0,1);
-            PMMLCG_1 = new LCGUnifGenerator((long) Math.pow(2,31) - 1, (long) Math.pow(7,5),0,1);
-            PMMLCG_2 = new LCGUnifGenerator((long) Math.pow(2,31) - 1, 630360016,0,237);
+            RANDU = new LinearCongruentialUG((long) Math.pow(2,31), (long) (Math.pow(2,16)+3),0,1);
+            PMMLCG_1 = new LinearCongruentialUG((long) Math.pow(2,31) - 1, (long) Math.pow(7,5),0,1);
+            PMMLCG_2 = new LinearCongruentialUG((long) Math.pow(2,31) - 1, 630360016,0,237);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,7 +91,7 @@ public class LCGUnifGenerator implements UnifRandGenerator{
      * @param seed
      * @throws Exception
      */
-    public LCGUnifGenerator(long m, long a, long c, long seed) throws Exception {
+    public LinearCongruentialUG(long m, long a, long c, long seed) throws Exception {
         if(!(m > 0)) {
             throw new Exception("m must be larger than 0.");
         }

@@ -5,20 +5,20 @@ import Utils.AverageUtils;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class JUnifRandGenerator implements UnifRandGenerator{
+public class JavaUG implements UnifRandGenerator{
     private final long seed;
     private Random r;
     private ArrayList<Double> u;
     private int curI;
 
-    public JUnifRandGenerator(long seed) {
+    public JavaUG(long seed) {
         r = new Random(seed);
         this.seed = seed;
         u = new ArrayList<>();
         curI = 0;
     }
 
-    public JUnifRandGenerator() {
+    public JavaUG() {
         Random q = new Random();
         this.seed = q.nextLong();
         r = new Random(seed);

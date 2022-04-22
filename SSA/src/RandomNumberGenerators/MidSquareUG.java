@@ -3,7 +3,6 @@ package RandomNumberGenerators;
 import Utils.AverageUtils;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Intuitively the midsquare method seems to provide a good scrambling of one
@@ -12,7 +11,7 @@ import java.util.Random;
  * very well at all. One serious problem (among others) is that it has a strong tendency
  * to degenerate fairly rapidly to zero, where it will stay forever. (
  */
-public class MidSquareUnifGenerator implements UnifRandGenerator{
+public class MidSquareUG implements UnifRandGenerator{
 
     private final int seed;
     private ArrayList<Integer> z;
@@ -24,7 +23,7 @@ public class MidSquareUnifGenerator implements UnifRandGenerator{
      * The seed MUST be a 4 digit positive integer
      * @param seed
      */
-    public MidSquareUnifGenerator(int seed) throws Exception {
+    public MidSquareUG(int seed) throws Exception {
         if(seed < 0) {
             throw new Exception("Seed cannot be negative");
         }
